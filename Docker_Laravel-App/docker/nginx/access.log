@@ -1,0 +1,2 @@
+102.216.201.62 - - [11/Feb/2023:18:29:34 +0000] "GET / HTTP/1.1" 200 17605 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
+102.216.201.62 - - [11/Feb/2023:18:29:34 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "http://100.26.155.54/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"

@@ -1,0 +1,67 @@
+version: '3.7'
+services:
+
+  # PHP Service
+  app:
+    build:
+      args:
+        user: ade
+        uid: 1000
+      context: ./
+      dockerfile: docker/Dockerfile
+    image: laravelphp
+    container_name: laravel-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - laravel
+
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: laravel-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/laravel.conf:/etc/nginx/conf.d/app.conf
+      - ./docker/nginx:/var/log/nginx
+    networks:
+      - laravel
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.41
+    container_name: laravel-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - my-dbdata:/var/lib/mysql/
+      - ./docker/mysql/db.cnf:/etc/mysql/my.cnf
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+volumes:
+  my-dbdata:
+    driver: local
